@@ -46,7 +46,7 @@ class KNearestNeighbor(object):
         elif num_loops == 2:
             dists = self.compute_distances_two_loops(X)
         else:
-            raise ValueError('Invalid value %d for num_loops' % num_loops)
+            raise ValueError("Invalid value %d for num_loops" % num_loops)
 
         return self.predict_labels(dists, k=k)
 
@@ -77,7 +77,7 @@ class KNearestNeighbor(object):
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-                pass
+                dists[i][j] = np.sqrt(np.sum((X[i] - self.X_train[j]) ** 2))
 
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -101,7 +101,17 @@ class KNearestNeighbor(object):
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            # X[i] - X_train would have the shape (d) - (num_train, d), which
+            # is not a valid operation (they need to have the same shape).
+            #
+            # Since we don't want to iterate each row of X_train, one solution
+            # might be to convert X[i] to a matrix with num_train rows, where
+            # each row is a copy of X[i]
+            #
+            # We can use achieve this using np.tile(X[i], num_train, 1),
+            # however numpy does broadcasting by default, so you can actually
+            # subtract X[i] - X_train and it will all work out nicely
+            dists[i, :] = np.sqrt(np.sum((X[i] - self.X_train) ** 2, axis=1))
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -131,7 +141,15 @@ class KNearestNeighbor(object):
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        # expand out the inner square
+        # (x - y)^2 = x^2 - 2xy + y^2
+        # dist[i][j] = || x_i - x_train_j || 2
+        #            = x_i dot x_i - 2 x_i dot x_train_j + x_train_j dot x_train_j
+
+        term_1 = np.sum(X ** 2, axis=1)  # (num_test, d) -> (num_test)
+        term_2 = -2 * np.matmul(X, self.X_train.T)  # shape (num_test, num_train)
+        term_3 = np.sum(self.X_train ** 2, axis=1)  # (num_train, d) -> (num_train)
+        dists = np.sqrt(term_1.reshape(-1, 1) + term_2 + term_3)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -164,7 +182,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            indices = np.argsort(dists[i])[:k]
+            closest_y = self.y_train[indices]
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
             #########################################################################
@@ -176,7 +195,13 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            # computes unique numbers, as well as their frequency
+            unique, counts = np.unique(closest_y, return_counts=True)
+
+            # cannot use np.argmax, since that only returns 1 index in case of
+            # a tie (we need to pick smaller label incase of a tie)
+            max_indices = np.argwhere(counts == np.max(counts))
+            y_pred[i] = unique[np.min(max_indices)]
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
