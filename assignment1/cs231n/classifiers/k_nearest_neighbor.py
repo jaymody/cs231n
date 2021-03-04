@@ -45,10 +45,39 @@ class KNearestNeighbor(object):
             dists = self.compute_distances_one_loop(X)
         elif num_loops == 2:
             dists = self.compute_distances_two_loops(X)
+        elif num_loops == 3:
+            dists = self.compute_distances_three_loops(X)
         else:
             raise ValueError("Invalid value %d for num_loops" % num_loops)
 
         return self.predict_labels(dists, k=k)
+
+    def compute_distances_three_loops(self, X):
+        """
+        Compute the distance between each test point in X and each training point
+        in self.X_train using nested loops over the training data, the test data,
+        and each element of their respective data.
+
+        Inputs:
+        - X: A numpy array of shape (num_test, D) containing test data.
+
+        Returns:
+        - dists: A numpy array of shape (num_test, num_train) where dists[i, j]
+          is the Euclidean distance between the ith test point and the jth training
+          point.
+        """
+        num_test = X.shape[0]
+        num_train = self.X_train.shape[0]
+        dim = X.shape[1]
+        dists = np.zeros((num_test, num_train))
+
+        for i in range(num_test):
+            for j in range(num_train):
+                for k in range(dim):
+                    dists[i][j] += (X[i][k] - self.X_train[j][k]) ** 2
+                dists[i][j] = np.sqrt(dists[i][j])
+
+        return dists
 
     def compute_distances_two_loops(self, X):
         """
