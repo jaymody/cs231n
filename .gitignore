@@ -1,6 +1,7 @@
 ### Project ###
 **/datasets/**/*
 !datasets/*.sh
+_*.ipynb
 
 
 ### Python ###
