@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
+
 def tv_loss(img, tv_weight):
     """
     Compute total variation loss.
@@ -19,6 +20,7 @@ def tv_loss(img, tv_weight):
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
 
 def style_loss(feats, style_layers, style_targets, style_weights):
     """
@@ -46,6 +48,7 @@ def style_loss(feats, style_layers, style_targets, style_weights):
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+
 def gram_matrix(features, normalize=True):
     """
     Compute the Gram matrix from features.
@@ -66,6 +69,7 @@ def gram_matrix(features, normalize=True):
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+
 def content_loss(content_weight, content_current, content_original):
     """
     Compute the content loss for style transfer.
@@ -83,6 +87,7 @@ def content_loss(content_weight, content_current, content_original):
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
 
 # We provide this helper code which takes an image, a model (cnn), and returns a list of
 # feature maps, one per layer.
@@ -109,5 +114,6 @@ def extract_features(x, cnn):
         prev_feat = next_feat
     return features
 
-def rel_error(x,y):
+
+def rel_error(x, y):
     return np.max(np.abs(x - y) / (np.maximum(1e-8, np.abs(x) + np.abs(y))))

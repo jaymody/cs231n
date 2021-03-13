@@ -4,6 +4,7 @@ from past.builtins import xrange
 from math import sqrt, ceil
 import numpy as np
 
+
 def visualize_grid(Xs, ubound=255.0, padding=1):
     """
     Reshape a 4D tensor of image data to a grid for easy visualization.
@@ -38,36 +39,40 @@ def visualize_grid(Xs, ubound=255.0, padding=1):
     # grid = ubound * (grid - grid_min) / (grid_max - grid_min)
     return grid
 
+
 def vis_grid(Xs):
     """ visualize a grid of images """
     (N, H, W, C) = Xs.shape
     A = int(ceil(sqrt(N)))
-    G = np.ones((A*H+A, A*W+A, C), Xs.dtype)
+    G = np.ones((A * H + A, A * W + A, C), Xs.dtype)
     G *= np.min(Xs)
     n = 0
     for y in range(A):
         for x in range(A):
             if n < N:
-                G[y*H+y:(y+1)*H+y, x*W+x:(x+1)*W+x, :] = Xs[n,:,:,:]
+                G[y * H + y : (y + 1) * H + y, x * W + x : (x + 1) * W + x, :] = Xs[
+                    n, :, :, :
+                ]
                 n += 1
     # normalize to [0,1]
     maxg = G.max()
     ming = G.min()
-    G = (G - ming)/(maxg-ming)
+    G = (G - ming) / (maxg - ming)
     return G
+
 
 def vis_nn(rows):
     """ visualize array of arrays of images """
     N = len(rows)
     D = len(rows[0])
-    H,W,C = rows[0][0].shape
+    H, W, C = rows[0][0].shape
     Xs = rows[0][0]
-    G = np.ones((N*H+N, D*W+D, C), Xs.dtype)
+    G = np.ones((N * H + N, D * W + D, C), Xs.dtype)
     for y in range(N):
         for x in range(D):
-            G[y*H+y:(y+1)*H+y, x*W+x:(x+1)*W+x, :] = rows[y][x]
+            G[y * H + y : (y + 1) * H + y, x * W + x : (x + 1) * W + x, :] = rows[y][x]
     # normalize to [0,1]
     maxg = G.max()
     ming = G.min()
-    G = (G - ming)/(maxg-ming)
+    G = (G - ming) / (maxg - ming)
     return G

@@ -9,4 +9,6 @@ extensions = [
     ),
 ]
 
-setup(ext_modules=cythonize(extensions),)
+setup(
+    ext_modules=cythonize(extensions),
+)

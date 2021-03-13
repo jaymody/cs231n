@@ -264,7 +264,7 @@ def load_imagenet_val(num=None):
     # modify the default parameters of np.load
     # https://stackoverflow.com/questions/55890813/how-to-fix-object-arrays-cannot-be-loaded-when-allow-pickle-false-for-imdb-loa
     np_load_old = np.load
-    np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+    np.load = lambda *a, **k: np_load_old(*a, allow_pickle=True, **k)
     f = np.load(imagenet_fn)
     np.load = np_load_old
     X = f["X"]

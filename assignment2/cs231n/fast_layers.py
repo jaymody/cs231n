@@ -5,10 +5,18 @@ try:
     from .im2col_cython import col2im_cython, im2col_cython
     from .im2col_cython import col2im_6d_cython
 except ImportError:
-    print("""=========== You can safely ignore the message below if you are NOT working on ConvolutionalNetworks.ipynb ===========""")
-    print("\tYou will need to compile a Cython extension for a portion of this assignment.")
-    print("\tThe instructions to do this will be given in a section of the notebook below.")
-    print("\tThere will be an option for Colab users and another for Jupyter (local) users.")
+    print(
+        """=========== You can safely ignore the message below if you are NOT working on ConvolutionalNetworks.ipynb ==========="""
+    )
+    print(
+        "\tYou will need to compile a Cython extension for a portion of this assignment."
+    )
+    print(
+        "\tThe instructions to do this will be given in a section of the notebook below."
+    )
+    print(
+        "\tThere will be an option for Colab users and another for Jupyter (local) users."
+    )
 
 from .im2col import *
 

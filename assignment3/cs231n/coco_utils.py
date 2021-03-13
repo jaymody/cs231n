@@ -6,8 +6,9 @@ import h5py
 dir_path = os.path.dirname(os.path.realpath(__file__))
 BASE_DIR = os.path.join(dir_path, "datasets/coco_captioning")
 
+
 def load_coco_data(base_dir=BASE_DIR, max_train=None, pca_features=True):
-    print('base dir ', base_dir)
+    print("base dir ", base_dir)
     data = {}
     caption_file = os.path.join(base_dir, "coco2014_captions.h5")
     with h5py.File(caption_file, "r") as f:

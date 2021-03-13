@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
 
+
 def compute_saliency_maps(X, y, model):
     """
     Compute a class saliency map using the model for images X and labels y.
@@ -42,6 +43,7 @@ def compute_saliency_maps(X, y, model):
     #                             END OF YOUR CODE                               #
     ##############################################################################
     return saliency
+
 
 def make_fooling_image(X, target_y, model):
     """
@@ -92,6 +94,7 @@ def make_fooling_image(X, target_y, model):
     ##############################################################################
     return X_fooling
 
+
 def class_visualization_update_step(X, model, target_y, l2_reg, learning_rate):
     ########################################################################
     # TODO: Compute the value of the gradient of the score for             #
@@ -112,10 +115,12 @@ def class_visualization_update_step(X, model, target_y, l2_reg, learning_rate):
 
     return X
 
+
 def blur_image(X, sigma=1):
     X = gaussian_filter1d(X, sigma, axis=1)
     X = gaussian_filter1d(X, sigma, axis=2)
     return X
+
 
 def jitter(X, ox, oy):
     """

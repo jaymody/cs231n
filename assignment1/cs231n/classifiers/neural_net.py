@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from past.builtins import xrange
 
+
 class TwoLayerNet(object):
     """
     A two-layer fully-connected neural network. The net has an input dimension of
@@ -38,10 +39,10 @@ class TwoLayerNet(object):
         - output_size: The number of classes C.
         """
         self.params = {}
-        self.params['W1'] = std * np.random.randn(input_size, hidden_size)
-        self.params['b1'] = np.zeros(hidden_size)
-        self.params['W2'] = std * np.random.randn(hidden_size, output_size)
-        self.params['b2'] = np.zeros(output_size)
+        self.params["W1"] = std * np.random.randn(input_size, hidden_size)
+        self.params["b1"] = np.zeros(hidden_size)
+        self.params["W2"] = std * np.random.randn(hidden_size, output_size)
+        self.params["b2"] = np.zeros(output_size)
 
     def loss(self, X, y=None, reg=0.0):
         """
@@ -67,8 +68,8 @@ class TwoLayerNet(object):
           with respect to the loss function; has the same keys as self.params.
         """
         # Unpack variables from the params dictionary
-        W1, b1 = self.params['W1'], self.params['b1']
-        W2, b2 = self.params['W2'], self.params['b2']
+        W1, b1 = self.params["W1"], self.params["b1"]
+        W2, b2 = self.params["W2"], self.params["b2"]
         N, D = X.shape
 
         # Compute the forward pass
@@ -117,10 +118,19 @@ class TwoLayerNet(object):
 
         return loss, grads
 
-    def train(self, X, y, X_val, y_val,
-              learning_rate=1e-3, learning_rate_decay=0.95,
-              reg=5e-6, num_iters=100,
-              batch_size=200, verbose=False):
+    def train(
+        self,
+        X,
+        y,
+        X_val,
+        y_val,
+        learning_rate=1e-3,
+        learning_rate_decay=0.95,
+        reg=5e-6,
+        num_iters=100,
+        batch_size=200,
+        verbose=False,
+    ):
         """
         Train this neural network using stochastic gradient descent.
 
@@ -177,7 +187,7 @@ class TwoLayerNet(object):
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
             if verbose and it % 100 == 0:
-                print('iteration %d / %d: loss %f' % (it, num_iters, loss))
+                print("iteration %d / %d: loss %f" % (it, num_iters, loss))
 
             # Every epoch, check train and val accuracy and decay learning rate.
             if it % iterations_per_epoch == 0:
@@ -191,9 +201,9 @@ class TwoLayerNet(object):
                 learning_rate *= learning_rate_decay
 
         return {
-          'loss_history': loss_history,
-          'train_acc_history': train_acc_history,
-          'val_acc_history': val_acc_history,
+            "loss_history": loss_history,
+            "train_acc_history": train_acc_history,
+            "val_acc_history": val_acc_history,
         }
 
     def predict(self, X):

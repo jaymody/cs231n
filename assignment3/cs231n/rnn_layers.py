@@ -118,9 +118,9 @@ def rnn_backward(dh, cache):
     Compute the backward pass for a vanilla RNN over an entire sequence of data.
 
     Inputs:
-    - dh: Upstream gradients of all hidden states, of shape (N, T, H). 
-    
-    NOTE: 'dh' contains the upstream gradients produced by the 
+    - dh: Upstream gradients of all hidden states, of shape (N, T, H).
+
+    NOTE: 'dh' contains the upstream gradients produced by the
     individual loss functions at each timestep, *not* the gradients
     being passed between timesteps (which you'll have to compute yourself
     by calling rnn_step_backward in a loop).
