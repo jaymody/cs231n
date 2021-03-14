@@ -148,16 +148,10 @@ def svm_loss_vectorized(W, X, y, reg):
     margins[margins > 0] = 1
     margins[np.arange(N), y] = -np.sum(margins, axis=1)
 
-    # repeat X[i] for the number of classes, and multiply by margins to
-    # get an array of gradients of shape (N, C, D)
-    grad = X.reshape(N, 1, D)
-    grad = np.repeat(grad, C, axis=1)
-
-    # element wise multiply vectors by margin scalars
-    grad = grad * margins.reshape(-1, C, 1)
-
-    # sum and average gradients across all examples
-    dW = np.sum(grad, axis=0).T / N  # (N, C, D) --sum--> (C, D) --transpose--> (D, C)
+    # write down the formula for dL/dW_ij, the result is
+    # 1/N * sum(margin_gradient[n][i] dot x[n][j] for all n in N) + reg_gradient
+    # ignoring the reg_gradient, which we can add later, we get:
+    dW = np.matmul(X.T, margins) / N  # (D, N) * (N, C) -> (D, C)
 
     # add regularization gradient
     dW += 2 * reg * W
