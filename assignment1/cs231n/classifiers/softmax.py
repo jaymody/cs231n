@@ -3,6 +3,37 @@ import numpy as np
 from random import shuffle
 from past.builtins import xrange
 
+#     N = X.shape[0]
+#     D = X.shape[1]
+#     C = W.shape[1]
+
+#     # cross entropy loss and gradient
+#     for i in range(N):
+#         f = X[i].dot(W)  # (D) * (D, C) -> (C)
+#         # adjusted_f = f - np.max(f)
+#         unnormalized_probs = np.exp(f)  # (C)
+#         prob = unnormalized_probs[y[i]] / np.sum(unnormalized_probs)
+#         loss += -np.log(prob)
+
+#         for k in range(C):
+#             grad = -1 / (prob * np.log(prob))  # (1)
+#             grad *= unnormalized_probs[k]  # (1)
+#             grad *= X[i]  # (D)
+#             if k == y[i]:
+#                 dW[:, k] += 1 * grad
+#             else:
+#                 dW[:, k] += (-1 / unnormalized_probs[k] ** 2) * grad
+
+#     # normalize loss and gradient by number of trainin examples
+#     loss /= N
+#     dW /= N
+
+#     # regularization loss and gradient
+#     for j in range(D):
+#         for k in range(C):
+#             loss += reg * W[j][k] ** 2
+#             dW += 2 * reg * W[j][k]
+
 
 def softmax_loss_naive(W, X, y, reg):
     """
@@ -34,7 +65,18 @@ def softmax_loss_naive(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    N = X.shape[0]
+    D = X.shape[1]
+    C = W.shape[1]
+
+    for i in range(N):
+        scores = np.matmul(X[i], W)  # (N, D) * (D, C) -> (N, C)
+        adjusted_scores = scores + -np.max(scores)  # for numerical stability
+        unnormalized_probs = np.exp(adjusted_scores)
+
+        loss += -np.log(unnormalized_probs[y[i]] / np.sum(unnormalized_probs))
+
+    loss /= N
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
